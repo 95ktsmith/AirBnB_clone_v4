@@ -1,20 +1,21 @@
-$(document.ready(function () {
+$(document).ready(function () {
   $('INPUT[type=checkbox]').change(function(){
       let checked = {};
       if($(this).is(':checked')) {
-        checked[$(this).data-id] = $(this).data-name;;
+        checked[$(this).attr('data-id')] = $(this).attr('data-name');
           // Checkbox is checked.. update h4 in DIV amenities
       } else {
-        delete checked(this.data-id);
+        delete checked[$(this).attr('data-id')];
         // Checkbox is not checked..
       }
       let subhead = "";
       for (var key in checked) {
         if (subhead != "") {
-          subhead += ", ";
+          subhead = subhead.concat(", ");
         }
-          subhead += checked[key];
+          subhead = subhead.concat(checked[key]);
       }
-      $("DIV#amenities h4").text(subhead);
+      $(".amenities h4").text(subhead);
   });
 });
+
