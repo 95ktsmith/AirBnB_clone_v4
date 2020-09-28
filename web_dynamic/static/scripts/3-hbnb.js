@@ -12,34 +12,39 @@ function get_places () {
     console.log(places);
     for (let place = 0; place < places.length; place++) {
       console.log(places[place]);
-      let article = '<article>\
+      let guests = '';
+      if (places[place].max_guest !== 1) {
+        guests = 's';
+      }
+      let rooms = '';
+      if (places[place].number_rooms !== 1) {
+        rooms = 's';
+      }
+      let bathrooms = '';
+      if (places[place].number_bathrooms !== 1) {
+        bathrooms = 's';
+      }
+      const article = '<article>\
                       <div class="title_box">\
                         <h2>' + places[place].name + '</h2>\
                         <div class="price_by_night">$' + places[place].price_by_night + '</div>\
                       </div>\
                       <div class="information">\
-                        <div class="max_guest">' + places[place].max_guest + 'Guest{% if place.max_guest != 1 %}s{% endif %}</div>\
-                              <div class="number_rooms">{{ place.number_rooms }} Bedroom{% if place.number_rooms != 1 %}s{% endif %}</div>\
-                              <div class="number_bathrooms">{{ place.number_bathrooms }} Bathroom{% if place.number_bathrooms != 1 %}s{% endif %}</div>\
+                        <div class="max_guest">' + places[place].max_guest + 'Guest' + guests + '</div>\
+                              <div class="number_rooms">' + places[place].number_rooms + 'Bedroom' + rooms + '</div>\
+                              <div class="number_bathrooms">' + places[place].number_bathrooms + ' Bathroom' + bathrooms + '</div>\
                       </div>\
-                      <div class="user">\
-                              <b>Owner:</b> {{ place.user.first_name }} {{ place.user.last_name }}\
-                            </div>\
                             <div class="description">\
-                        {{ place.description | safe }}\
+                       ' + places[place].description + '\
                             </div>\
                       </article>';
       $('section.places').append(article);
     }
   };
-  xhttp.open("POST", "http://localhost:5001/api/v1/places_search", true);
-  xhttp.setRequestHeader("Content-type", "application/json");
-  xhttp.send("{}");
+  xhttp.open('POST', 'http://localhost:5001/api/v1/places_search', true);
+  xhttp.setRequestHeader('Content-type', 'application/json');
+  xhttp.send('{}');
 }
-
-
-
-
 
 function check_amenities () {
   const checked = {};
