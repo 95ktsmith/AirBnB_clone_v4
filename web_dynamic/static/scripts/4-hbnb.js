@@ -7,7 +7,7 @@ $(document).ready(function () {
 });
 
 function pushedButton () {
-  //check if button clicked
+  //check if button
   $('button').click( function () {
     get_places();
   });
