@@ -58,7 +58,6 @@ function get_places () {
 
 const checked = {};
 function check_amenities () {
-  //const checked = {};
   for (let box = 0; box < $('INPUT[type=checkbox]').length; box++) {
     $('INPUT[type=checkbox]').change(function () {
       if ($(this).is(':checked')) {
