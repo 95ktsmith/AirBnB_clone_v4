@@ -3,9 +3,24 @@ $(document).ready(function () {
   check_amenities();
   check_api_status();
   get_places();
+  pushedButton();
 });
 
-function get_places () {
+function pushedButton () {
+  //check if button clicked
+  $('button').click( function () {
+    console.log(Object.keys(checked));
+    dictionary = {'amenities': Object.keys(checked)};
+    //console.log(typeof(checked));
+    $('section.places').text('');
+    get_places(dictionary);
+    
+    //new post request with checked amenities
+  });
+  //new post request to places search with the list of checked amenities (bring amen list out of function)
+}
+
+function get_places (amens) {
   const xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     const places = JSON.parse(this.responseText);
@@ -43,11 +58,16 @@ function get_places () {
   };
   xhttp.open('POST', 'http://localhost:5001/api/v1/places_search', true);
   xhttp.setRequestHeader('Content-type', 'application/json');
-  xhttp.send('{}');
+  if (amens !== undefined) {
+    xhttp.send(JSON.stringify(amens));
+  } else {
+    xhttp.send('{}');
+  }
 }
 
+const checked = {};
 function check_amenities () {
-  const checked = {};
+  //const checked = {};
   for (let box = 0; box < $('INPUT[type=checkbox]').length; box++) {
     $('INPUT[type=checkbox]').change(function () {
       if ($(this).is(':checked')) {
