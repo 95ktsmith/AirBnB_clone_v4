@@ -5,10 +5,8 @@ $(document).ready(function () {
     $('INPUT[type=checkbox]').change(function () {
       if ($(this).is(':checked')) {
         checked[$(this).attr('data-id')] = $(this).attr('data-name');
-        // Checkbox is checked.. update h4 in DIV amenities
       } else {
         delete checked[$(this).attr('data-id')];
-        // Checkbox is not checked..
       }
       const subhead = [];
       for (const key in checked) {
