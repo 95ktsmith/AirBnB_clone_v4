@@ -9,24 +9,23 @@ $(document).ready(function () {
 function pushedButton () {
   //check if button clicked
   $('button').click( function () {
-    console.log(Object.keys(checked));
-    dictionary = {'amenities': Object.keys(checked)};
-    //console.log(typeof(checked));
-    $('section.places').text('');
-    get_places(dictionary);
-    
-    //new post request with checked amenities
+    get_places();
   });
-  //new post request to places search with the list of checked amenities (bring amen list out of function)
 }
 
-function get_places (amens) {
+function get_places () {
   const xhttp = new XMLHttpRequest();
+  xhttp.open('POST', 'http://localhost:5001/api/v1/places_search', true);
+  xhttp.setRequestHeader('Content-type', 'application/json');
+  if (Object.keys(checked).length === 0) {
+    xhttp.send('{}');
+  } else {
+    xhttp.send(JSON.stringify({'amenities': Object.keys(checked)}));
+  }
   xhttp.onreadystatechange = function () {
+    $('section.places').text('');
     const places = JSON.parse(this.responseText);
-    console.log(places);
     for (let place = 0; place < places.length; place++) {
-      console.log(places[place]);
       let guests = '';
       if (places[place].max_guest !== 1) {
         guests = 's';
@@ -56,13 +55,6 @@ function get_places (amens) {
       $('section.places').append(article);
     }
   };
-  xhttp.open('POST', 'http://localhost:5001/api/v1/places_search', true);
-  xhttp.setRequestHeader('Content-type', 'application/json');
-  if (amens !== undefined) {
-    xhttp.send(JSON.stringify(amens));
-  } else {
-    xhttp.send('{}');
-  }
 }
 
 const checked = {};
@@ -87,7 +79,7 @@ function check_amenities () {
 }
 
 function check_api_status () {
-  const url = 'http://localhost:5001/api/v1/status/';
+  const url = 'http://0.0.0.0:5001/api/v1/status/';
   $.get(url, function (data) {
     if (data.status === 'OK') {
       $('#api_status').addClass('available');

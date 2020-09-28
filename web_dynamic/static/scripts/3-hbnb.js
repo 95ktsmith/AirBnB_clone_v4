@@ -1,17 +1,15 @@
 const $ = window.$;
 $(document).ready(function () {
-  check_amenities();
-  check_api_status();
-  get_places();
+  checkAmenities();
+  checkApiStatus();
+  getPlaces();
 });
 
-function get_places () {
+function getPlaces () {
   const xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     const places = JSON.parse(this.responseText);
-    console.log(places);
     for (let place = 0; place < places.length; place++) {
-      console.log(places[place]);
       let guests = '';
       if (places[place].max_guest !== 1) {
         guests = 's';
@@ -24,20 +22,7 @@ function get_places () {
       if (places[place].number_bathrooms !== 1) {
         bathrooms = 's';
       }
-      const article = '<article>\
-                      <div class="title_box">\
-                        <h2>' + places[place].name + '</h2>\
-                        <div class="price_by_night">$' + places[place].price_by_night + '</div>\
-                      </div>\
-                      <div class="information">\
-                        <div class="max_guest">' + places[place].max_guest + 'Guest' + guests + '</div>\
-                              <div class="number_rooms">' + places[place].number_rooms + 'Bedroom' + rooms + '</div>\
-                              <div class="number_bathrooms">' + places[place].number_bathrooms + ' Bathroom' + bathrooms + '</div>\
-                      </div>\
-                            <div class="description">\
-                       ' + places[place].description + '\
-                            </div>\
-                      </article>';
+      const article = '<article><div class="title_box"><h2>' + places[place].name + '</h2><div class="price_by_night">$' + places[place].price_by_night + '</div></div><div class="information"><div class="max_guest">' + places[place].max_guest + 'Guest' + guests + '</div><div class="number_rooms">' + places[place].number_rooms + 'Bedroom' + rooms + '</div><div class="number_bathrooms">' + places[place].number_bathrooms + ' Bathroom' + bathrooms + '</div></div><div class="description">' + places[place].description + '</div></article>';
       $('section.places').append(article);
     }
   };
@@ -46,7 +31,7 @@ function get_places () {
   xhttp.send('{}');
 }
 
-function check_amenities () {
+function checkAmenities () {
   const checked = {};
   for (let box = 0; box < $('INPUT[type=checkbox]').length; box++) {
     $('INPUT[type=checkbox]').change(function () {
@@ -66,7 +51,7 @@ function check_amenities () {
   }
 }
 
-function check_api_status () {
+function checkApiStatus () {
   const url = 'http://localhost:5001/api/v1/status/';
   $.get(url, function (data) {
     if (data.status === 'OK') {
