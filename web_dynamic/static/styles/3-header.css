@@ -15,8 +15,11 @@ header .logo {
 }
 
 header #api_status {
-  top:50%;
+  position: absolute;
+  align-self: center;
+  top: 15px;
   float: right;
+  right: 0px;
   margin-right: 30px;
   height: 40px;
   width: 40px;
