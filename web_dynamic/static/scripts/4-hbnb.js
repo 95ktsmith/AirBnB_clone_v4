@@ -9,6 +9,7 @@ $(document).ready(function () {
 function pushedButton () {
   $('button').click( function () {
     get_places();
+  //when the button is clicked calls the get places function!
   });
 }
 
